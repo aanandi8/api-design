@@ -15,6 +15,13 @@ import {
   getUpdates,
   updateUpdate,
 } from "./handlers/update";
+import {
+  createUpdateItem,
+  deleteUpdateItem,
+  getOneUpdateItem,
+  getUpdateItems,
+  updateUpdateItem,
+} from "./handlers/update-item";
 const router = Router();
 /**
  * Product
@@ -62,14 +69,14 @@ router.delete("/update/:id", deleteUpdate);
 /**
  * Update Item
  */
-router.get("/update-item", () => {});
-router.get("/update-item/:id", () => {});
+router.get("/update-item", getUpdateItems);
+router.get("/update-item/:id", getOneUpdateItem);
 router.put(
   "/update-item/:id",
   body("name").optional().isString(),
   body("description").optional().isString(),
   handleInputErrors,
-  (req, res) => {}
+  createUpdateItem
 );
 router.post(
   "/update-item",
@@ -77,9 +84,9 @@ router.post(
   body("description").isString(),
   body("updateId").exists().isString(),
   handleInputErrors,
-  () => {}
+  updateUpdateItem
 );
-router.delete("/update-item/:id", () => {});
+router.delete("/update-item/:id", deleteUpdateItem);
 router.use((err, req, res, next) => {
   console.log(err);
   res.json({ message: "in router handler" });
